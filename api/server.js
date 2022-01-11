@@ -10,13 +10,13 @@ server.post('/api/users', async (req, res) => {
     try {
         const { name, bio } = req.body
         const newUser = await Users.insert({ name, bio })
-        if ( !name || !bio ) {
+        if (!name || !bio) {
             res.status(400).json({ message: 'Please provide name and bio for the user' })
         } else {
             res.status(201).json(newUser)
         }
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({ message: 'There was an error while saving the user to the database' })
     }
 })
 
@@ -25,7 +25,21 @@ server.get('/api/users', async (req, res) => {
         const getUsers = await Users.find()
         res.status(200).json(getUsers)
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({ message: 'The users information could not be retrieved' })
+    }
+})
+
+server.get('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const specifiedUser = await Users.findById(id)
+        if (!specifiedUser) {
+            res.status(404).json({ message: 'The user with the specified ID does not exist' })
+        } else {
+            res.status(200).json(specifiedUser)
+        }
+    } catch (err) {
+        res.status(500).json({ message: 'The user information could not be retrieved' })
     }
 })
 
