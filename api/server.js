@@ -7,4 +7,4 @@ server.use(express.json())
 
 
 
-module.exports = server; // EXPORT YOUR SERVER instead of {}
+module.exports = server // EXPORT YOUR SERVER instead of {}
